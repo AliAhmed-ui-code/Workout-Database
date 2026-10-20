@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang = 'en'> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Workouts</title>
+</head>
+<body>
+    <h1>Search Workouts</h1>
+    
+    <form method="GET">
+        <input type="text" name="q" placeholder="Search workouts..." value="{{ query }}">
+        <button type="submit">Search</button>
+    </form>
+    {% if query %}
+        <h2>Search Results for "{{ query }}"</h2>
+        <h2>Results</h2>
+    {% for workout in workouts %}
+        <hr>
+            <h3>{{ workout.name }}</h3>
+            <p><strong>Muscle Group:</strong> {{ workout.muscle_group }}</p>
+            <p><strong>Sets:</strong> {{ workout.sets }}</p>
+            <p><strong>Reps:</strong> {{ workout.reps }}</p>
+            <p><strong>Weight:</strong>
+                {{ workout.weight|default_if_none:"Unknown" }}
+            </p>
+            <p><strong>Incline:</strong>
+                {{ workout.incline|default_if_none:"Not applicable" }}
+            </p>
+            <p><strong>Equipment:</strong>
+                {{ workout.equipment|default_if_none:"Unknown" }}
+            </p>
+    {% empty %}
+        <p>No workouts found.</p>
+    {% endfor %}
+    {% endif %}
+    <p>
+        <a href="{% url 'create_workout' %}">Back to Create Workout</a>
+    </p>
+</body>
+</html>
